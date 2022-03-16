@@ -22,6 +22,10 @@ public class BulletProjectile : MonoBehaviour
     {
         if (other.transform.tag != "Player")
         {
+            if (other.transform.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
+            {
+                rigidbody.AddExplosionForce(-150f, transform.position, 5f);
+            }
             Destroy(gameObject);
         }
     }

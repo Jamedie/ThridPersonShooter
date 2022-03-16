@@ -1,14 +1,18 @@
 using Cinemachine;
 using StarterAssets;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
+    [Header("Character Camera Settings")]
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
     [SerializeField] private LayerMask aimColliderMask;
+    [SerializeField] private Transform targetTransform;
+
+    [Header("Weapons Settings")]
+    [SerializeField] private ParticleSystem muzzleParticleSystem;
     [SerializeField] private Transform bulletProjectilePrefab;
     [SerializeField] private Transform spawnBulletPosition;
 
@@ -39,6 +43,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         mouseWorldPosition = ray.GetPoint(20);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderMask))
         {
+            targetTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
         }
 
@@ -58,6 +63,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             //Can Shoot if aimed
             if (starterAssetsInputs.shoot)
             {
+                muzzleParticleSystem.Play();
                 Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
                 Instantiate(bulletProjectilePrefab, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                 starterAssetsInputs.shoot = false;
@@ -70,6 +76,5 @@ public class ThirdPersonShooterController : MonoBehaviour
             thirdPersonController.SetRotationMove(true);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
-
     }
 }
