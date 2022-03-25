@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee3c1e8477a2c32488c9f2c454c04530, type: 3}
+  m_Name: AssaultRifleStats
+  m_EditorClassIdentifier: 
+  GunTransform: {fileID: 4687971008595054, guid: ad69abc8597c85e419faf2f56af475eb, type: 3}
+  FxMuzzleShot: {fileID: 4495702768439910, guid: d0e46bceb01b00c49929c5806c424efd, type: 3}
+  FxGunShot: {fileID: 4112613829369882, guid: f4b0d24c69afadf489bb66afd10efd84, type: 3}
+  GunBulletStats: {fileID: 0}
+  GunFiringMode: 2
+  GunWeaponType: 1
+  bulletProjectilePrefab: {fileID: 6652712199441289988, guid: 60663d44c9560284c8f8ed6f4d19dbb0, type: 3}
+  RateFire: 0.25

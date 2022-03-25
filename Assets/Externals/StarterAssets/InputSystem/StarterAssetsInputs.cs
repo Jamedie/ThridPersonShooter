@@ -18,6 +18,8 @@ namespace StarterAssets
         public bool sprint;
         public bool aim;
         public bool shoot;
+        public bool use;
+        public bool dodge;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -65,6 +67,16 @@ namespace StarterAssets
             ShootInput(value.isPressed);
         }
 
+        public void OnUse(InputValue value)
+        {
+            UseInput(value.isPressed);
+        }
+
+        public void OnDodge(InputValue value)
+        {
+            DodgeInput(value.isPressed);
+        }
+
 #else
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
@@ -99,6 +111,16 @@ namespace StarterAssets
             shoot = newShootState;
         }
 
+        public void UseInput(bool newUseState)
+        {
+            use = newUseState;
+        }
+
+        public void DodgeInput(bool newUseState)
+        {
+            dodge = newUseState;
+        }
+
 #if !UNITY_IOS || !UNITY_ANDROID
 
         private void OnApplicationFocus(bool hasFocus)
@@ -106,7 +128,7 @@ namespace StarterAssets
             SetCursorState(cursorLocked);
         }
 
-        private void SetCursorState(bool newState)
+        public void SetCursorState(bool newState)
         {
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
         }

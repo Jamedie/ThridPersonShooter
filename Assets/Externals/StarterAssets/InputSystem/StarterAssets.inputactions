@@ -42,10 +42,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
-                    "type": "PassThrough",
-                    "id": "eeb306ad-bf16-44fc-b3be-fbab2bb9e86b",
-                    "expectedControlType": "",
+                    "name": "Use",
+                    "type": "Button",
+                    "id": "93d9e420-9ee8-4491-9a9c-03e4c64ec9d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dodge",
+                    "type": "Button",
+                    "id": "e173c491-f2ad-42fb-97ed-224f011510e4",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -53,8 +62,17 @@
                 {
                     "name": "Shoot",
                     "type": "Button",
-                    "id": "b641708c-e823-44c5-b3e3-9071f258bd04",
+                    "id": "195fa2c7-e6c5-4e14-a7c7-f4107fd22764",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "PassThrough",
+                    "id": "3bd6e98b-d073-47d9-9b81-0eb6a042d1f6",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -239,29 +257,51 @@
                 },
                 {
                     "name": "",
-                    "id": "ed3f538d-ab49-4820-9331-a660c1cb8e1a",
-                    "path": "<Mouse>/rightButton",
+                    "id": "2ffc0b6b-66a9-468c-bac7-e439f2fdbe0e",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Aim",
+                    "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "71f1e29e-af78-4980-a73d-a58aab527852",
-                    "path": "<Gamepad>/leftTrigger",
+                    "id": "4d614d56-0b72-4877-b093-73000607a78f",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Xbox Controller;PS4 Controller",
-                    "action": "Aim",
+                    "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "8da260e4-90dd-4235-8705-a4c922622316",
+                    "id": "5f86f4f5-d6da-4faf-b948-63a19231760d",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "455d0123-dc92-48fa-96a9-52f3bc745904",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller;Gamepad;PS4 Controller",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41eb8232-e9db-424d-9f5e-fd8f27a28385",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
@@ -272,12 +312,34 @@
                 },
                 {
                     "name": "",
-                    "id": "32751c6a-24d4-4ba0-8f4f-9f6ea40d335b",
+                    "id": "16837e7a-3193-4809-8a67-5fcb37b5d336",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bea5d949-cce9-4dce-883e-740cc5b9bae8",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "77186c1f-f1cc-4f68-9d6b-479537e835f7",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -52,6 +52,10 @@ namespace StarterAssets
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
         public bool Grounded = true;
 
+        [Header("Player Dive Roll")]
+        [Tooltip("If the character is diving")]
+        public bool Dived = false;
+
         [Tooltip("Useful for rough ground")]
         public float GroundedOffset = -0.14f;
 
@@ -103,6 +107,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDDodge;
 
         private Animator _animator;
         private CharacterController _controller;
@@ -113,6 +118,8 @@ namespace StarterAssets
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+
+        private bool _allowRotateCamera = true;
 
         private void Awake()
         {
@@ -138,8 +145,6 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
-
             JumpAndGravity();
             GroundedCheck();
             Move();
@@ -147,7 +152,10 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (_allowRotateCamera)
+            {
+                CameraRotation();
+            }
         }
 
         private void AssignAnimationIDs()
@@ -157,6 +165,7 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDDodge = Animator.StringToHash("Dodge");
         }
 
         private void GroundedCheck()
@@ -273,7 +282,7 @@ namespace StarterAssets
                 }
 
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                if (_input.jump && _jumpTimeoutDelta <= 0.0f && !Dived)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -283,6 +292,17 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+                }
+                else if (_input.dodge)
+                {
+                    Debug.Log("Dodge)");
+                    // Dived = true;
+                    // update animator if using character
+                    if (_hasAnimator)
+                    {
+                        _animator.SetTrigger(_animIDDodge);
+                    }
+                    _input.dodge = false;
                 }
 
                 // jump timeout
@@ -348,6 +368,11 @@ namespace StarterAssets
         public void SetRotationMove(bool newRotationMove)
         {
             _rotateOnMove = newRotationMove;
+        }
+
+        public void SetAllowRotateCamera(bool newRotationState)
+        {
+            _allowRotateCamera = newRotationState;
         }
     }
 }

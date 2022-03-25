@@ -12,6 +12,8 @@ public class RadialMenu : MonoBehaviour
         click
     }
 
+    public bool isOpen = false;
+
     [SerializeField] private ValidationMethod currentValidationMethod;
 
     [SerializeField] private GameObject entryPrefab;
@@ -28,7 +30,7 @@ public class RadialMenu : MonoBehaviour
 
     public Action<RadialMenuEntry> OnValidate;
 
-    private void Start()
+    private void Awake()
     {
         _entriesList = new List<RadialMenuEntry>();
     }
@@ -43,6 +45,7 @@ public class RadialMenu : MonoBehaviour
         newRadialEntry.SetIcon(icon);
         newRadialEntry.CallbackEnter += SetCurrentSelectedEntry;
         newRadialEntry.CallbackClick += ValidateClickEntry;
+        newRadialEntry._id = _entriesList.Count;
 
         _entriesList.Add(newRadialEntry);
         entry.name += "_" + _entriesList.Count.ToString();
@@ -88,6 +91,16 @@ public class RadialMenu : MonoBehaviour
         Close();
     }
 
+    public void ValidateAndClose()
+    {
+        if (currentSeletectedEntry != null)
+        {
+            Debug.Log("Validate with => " + currentSeletectedEntry.gameObject.name);
+            OnValidate?.Invoke(currentSeletectedEntry);
+        }
+        Close();
+    }
+
     public void Open()
     {
         Debug.Log("Open");
@@ -96,17 +109,20 @@ public class RadialMenu : MonoBehaviour
             AddEntry(entryModelList[i].EntryIcon, entryModelList[i].EntryLabel);
         }
         ReArrange();
+
+        isOpen = true;
     }
 
     public void Close()
     {
-        Debug.Log("Close");
         for (int i = 0; i < _entriesList.Count; i++)
         {
             GameObject entry = _entriesList[i].gameObject;
             Destroy(entry);
         }
         _entriesList.Clear();
+
+        isOpen = false;
     }
 
     public void Toggle()
