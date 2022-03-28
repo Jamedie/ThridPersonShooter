@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -49,7 +50,7 @@ public class CustomThridPersonController : MonoBehaviour
 
     [Header("Player Dive Roll")]
     [Tooltip("If the character is diving")]
-    public bool Dived = false;
+    public bool isDodging = false;
 
     [Tooltip("Useful for rough ground")]
     public float GroundedOffset = -0.14f;
@@ -76,6 +77,11 @@ public class CustomThridPersonController : MonoBehaviour
     [Tooltip("For locking the camera position on all axis")]
     public bool LockCameraPosition = false;
 
+    [Tooltip("Get dodge curve for changing state")]
+    [SerializeField] private AnimationCurve dodgeCurve;
+
+    [SerializeField] private float rotateSpeed = 15;
+
     // cinemachine
     private float _cinemachineTargetYaw;
 
@@ -89,6 +95,8 @@ public class CustomThridPersonController : MonoBehaviour
     private float _rotationVelocity;
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
+    private float _dodgeTimer = 0f;
+    private float _dodge_coolDown = 0f;
 
     // timeout deltatime
     private float _jumpTimeoutDelta;
@@ -116,6 +124,7 @@ public class CustomThridPersonController : MonoBehaviour
     private bool _allowRotateCamera = true;
 
     private LocomotionAssetsInputs _input;
+    private Vector3 direction;
 
     private void Awake()
     {
@@ -138,13 +147,47 @@ public class CustomThridPersonController : MonoBehaviour
         // reset our timeouts on start
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
+
+        Keyframe dodge_lastFrame = dodgeCurve[dodgeCurve.length - 1];
+
+        _dodgeTimer = dodge_lastFrame.time;
     }
 
     private void Update()
     {
         JumpAndGravity();
+        Dodge();
         GroundedCheck();
-        Move();
+
+        if (!isDodging)
+        {
+            Move();
+        }
+
+        //Get direction
+        direction = (CinemachineCameraTarget.transform.right * _input.move.x + CinemachineCameraTarget.transform.forward * _input.move.y).normalized;
+
+        PlayerRotation();
+
+        if (_dodge_coolDown > 0)
+        {
+            _dodge_coolDown -= Time.deltaTime;
+        }
+
+        if (_input.dodge)
+        {
+            if (_dodge_coolDown > 0)
+            {
+                isDodging = false;
+                return;
+            }
+
+            if (_input.move.magnitude != 0)
+            {
+                StartCoroutine(Dodge()); //Only if the character is moving, dodging is allowed.
+                _input.dodge = false;
+            }
+        }
     }
 
     private void LateUpdate()
@@ -279,7 +322,7 @@ public class CustomThridPersonController : MonoBehaviour
             }
 
             // Jump
-            if (_input.jump && _jumpTimeoutDelta <= 0.0f && !Dived)
+            if (_input.jump && _jumpTimeoutDelta <= 0.0f && !isDodging)
             {
                 // the square root of H * -2 * G = how much velocity needed to reach desired height
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -289,17 +332,6 @@ public class CustomThridPersonController : MonoBehaviour
                 {
                     _animator.SetBool(_animIDJump, true);
                 }
-            }
-            else if (_input.dodge)
-            {
-                Debug.Log("Dodge)");
-                // Dived = true;
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetTrigger(_animIDDodge);
-                }
-                _input.dodge = false;
             }
 
             // jump timeout
@@ -336,6 +368,61 @@ public class CustomThridPersonController : MonoBehaviour
         {
             _verticalVelocity += Gravity * Time.deltaTime;
         }
+    }
+
+    private IEnumerator Dodge()
+    {
+        if (_hasAnimator)
+        {
+            _animator.SetTrigger(_animIDDodge);
+        }
+
+        isDodging = true;
+
+        float timer = 0;
+
+        bool heightCompressed = false;
+
+        _dodge_coolDown = _dodgeTimer + 0.25f;
+
+        while (timer < _dodgeTimer)
+        {
+            if (!heightCompressed && timer > _dodgeTimer / 3)
+            {
+                _controller.center = new Vector3(0, 0.5f, 0);
+
+                _controller.height = 1;
+
+                heightCompressed = true;
+            }
+
+            float speed = dodgeCurve.Evaluate(timer);
+
+            Vector3 dir = (transform.forward * speed) + (Vector3.up * _verticalVelocity); //Adding direction and gravity.
+            Debug.Log(dir);
+
+            _controller.Move(dir * Time.deltaTime);
+
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+        _controller.center = new Vector3(0, 1.1f, 0);
+
+        _controller.height = 2;
+
+        isDodging = false;
+    }
+
+    private void PlayerRotation()
+    {
+        if (_input.move.magnitude == 0) return;
+
+        float rs = rotateSpeed;
+
+        if (isDodging) rs = 3;
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), rs * Time.deltaTime);
     }
 
     #region Helpers

@@ -12,9 +12,21 @@ public class RadialMenu : MonoBehaviour
         click
     }
 
+    public enum OrganisationType
+    {
+        Circle,
+        SemiCircle,
+        Ellipse,
+        SemiEllipse
+    }
+
     public bool isOpen = false;
 
+    public Action<RadialMenuEntry> OnValidate;
+
     [SerializeField] private ValidationMethod currentValidationMethod;
+
+    [SerializeField] private OrganisationType currentOrganisationType;
 
     [SerializeField] private GameObject entryPrefab;
 
@@ -22,13 +34,11 @@ public class RadialMenu : MonoBehaviour
 
     [SerializeField] private List<EntryModel> entryModelList;
 
-    private List<RadialMenuEntry> _entriesList;
-
     [SerializeField] private RadialMenuEntry currentSeletectedEntry;
 
     [SerializeField] private UnityEvent OnItemSelected;
 
-    public Action<RadialMenuEntry> OnValidate;
+    private List<RadialMenuEntry> _entriesList;
 
     private void Awake()
     {
@@ -139,14 +149,57 @@ public class RadialMenu : MonoBehaviour
 
     private void ReArrange()
     {
-        float radiensOfSeperation = (Mathf.PI * 2) / _entriesList.Count;
-
-        for (int i = 0; i < _entriesList.Count; i++)
+        float radiensOfSeperation;
+        switch (currentOrganisationType)
         {
-            float x = Mathf.Sin(radiensOfSeperation * i) * radius;
-            float y = Mathf.Cos(radiensOfSeperation * i) * radius;
+            case OrganisationType.Circle:
+                radiensOfSeperation = (Mathf.PI * 2) / _entriesList.Count;
 
-            _entriesList[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
+                for (int i = 0; i < _entriesList.Count; i++)
+                {
+                    float x = -Mathf.Cos(radiensOfSeperation * i) * radius;
+                    float y = Mathf.Sin(radiensOfSeperation * i) * radius;
+
+                    _entriesList[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
+                }
+                break;
+
+            case OrganisationType.SemiCircle:
+                radiensOfSeperation = (Mathf.PI) / (_entriesList.Count - 1);
+
+                for (int i = 0; i < _entriesList.Count; i++)
+                {
+                    float x = -Mathf.Cos(radiensOfSeperation * i) * radius;
+                    float y = Mathf.Sin(radiensOfSeperation * i) * radius;
+
+                    _entriesList[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
+                }
+                break;
+
+            case OrganisationType.Ellipse:
+
+                radiensOfSeperation = (Mathf.PI * 2) / (_entriesList.Count);
+
+                for (int i = 0; i < _entriesList.Count; i++)
+                {
+                    float x = -Mathf.Cos(radiensOfSeperation * i) * radius;
+                    float y = Mathf.Sin(radiensOfSeperation * i) * radius;
+
+                    _entriesList[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y / 2, 0);
+                }
+                break;
+
+            case OrganisationType.SemiEllipse:
+                radiensOfSeperation = (Mathf.PI) / (_entriesList.Count - 1);
+
+                for (int i = 0; i < _entriesList.Count; i++)
+                {
+                    float x = -Mathf.Cos(radiensOfSeperation * i) * radius;
+                    float y = Mathf.Sin(radiensOfSeperation * i) * radius;
+
+                    _entriesList[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y / 2, 0);
+                }
+                break;
         }
     }
 }

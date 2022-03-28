@@ -114,6 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpen: 0
   currentValidationMethod: 1
+  currentOrganisationType: 1
   entryPrefab: {fileID: 5229675412396015508, guid: 46591925d1eed6746b6d57f930539af3, type: 3}
   radius: 0.75
   entryModelList:

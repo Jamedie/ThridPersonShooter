@@ -10,6 +10,8 @@ public class TriggerMultiAimConstraint : MonoBehaviour
     [SerializeField] private LocomotionAssetsInputs starterAssetsInputs;
     [SerializeField] private LayerMask aimColliderLayerMak;
 
+    [SerializeField] private bool displayLineRenderer = false;
+
     private MultiAimConstraint rig;
     private float targetWeight;
 
@@ -32,6 +34,10 @@ public class TriggerMultiAimConstraint : MonoBehaviour
         _head = rig.data.constrainedObject;
 
         TryGetComponent<LineRenderer>(out lineRenderer);
+        if (displayLineRenderer == false && lineRenderer != null)
+        {
+            lineRenderer.enabled = false;
+        }
     }
 
     private void Update()
@@ -62,8 +68,9 @@ public class TriggerMultiAimConstraint : MonoBehaviour
             _target.position = ray.GetPoint(20f);
         }
 
-        if (lineRenderer)
+        if (lineRenderer && displayLineRenderer)
         {
+            lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, _head.position);
             lineRenderer.SetPosition(1, _target.position);
         }
