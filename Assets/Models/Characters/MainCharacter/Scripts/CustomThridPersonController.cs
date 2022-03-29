@@ -77,6 +77,8 @@ public class CustomThridPersonController : MonoBehaviour
     [Tooltip("For locking the camera position on all axis")]
     public bool LockCameraPosition = false;
 
+    private const float _threshold = 0.01f;
+
     [Tooltip("Get dodge curve for changing state")]
     [SerializeField] private AnimationCurve dodgeCurve;
 
@@ -116,9 +118,6 @@ public class CustomThridPersonController : MonoBehaviour
     private CharacterController _controller;
     private GameObject _mainCamera;
     private bool _rotateOnMove = true;
-
-    private const float _threshold = 0.01f;
-
     private bool _hasAnimator;
 
     private bool _allowRotateCamera = true;
@@ -427,13 +426,6 @@ public class CustomThridPersonController : MonoBehaviour
 
     #region Helpers
 
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-    {
-        if (lfAngle < -360f) lfAngle += 360f;
-        if (lfAngle > 360f) lfAngle -= 360f;
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-
     public void SetSensitivity(float newSensitivity)
     {
         Sensitivity = newSensitivity;
@@ -447,6 +439,13 @@ public class CustomThridPersonController : MonoBehaviour
     public void SetAllowRotateCamera(bool newRotationState)
     {
         _allowRotateCamera = newRotationState;
+    }
+
+    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    {
+        if (lfAngle < -360f) lfAngle += 360f;
+        if (lfAngle > 360f) lfAngle -= 360f;
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
     private void OnDrawGizmosSelected()

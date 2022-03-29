@@ -2,24 +2,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
+
+public enum ValidationMethod
+{
+    pointerUp,
+    click
+}
+
+public enum OrganisationType
+{
+    Circle,
+    SemiCircle,
+    Ellipse,
+    SemiEllipse
+}
+
+[Serializable]
+public struct EntryModel
+{
+    public Sprite EntryIcon;
+    public string EntryLabel;
+}
 
 public class RadialMenu : MonoBehaviour
 {
-    public enum ValidationMethod
-    {
-        pointerUp,
-        click
-    }
-
-    public enum OrganisationType
-    {
-        Circle,
-        SemiCircle,
-        Ellipse,
-        SemiEllipse
-    }
-
     public bool isOpen = false;
 
     public Action<RadialMenuEntry> OnValidate;
@@ -39,6 +45,75 @@ public class RadialMenu : MonoBehaviour
     [SerializeField] private UnityEvent OnItemSelected;
 
     private List<RadialMenuEntry> _entriesList;
+
+    public void ValidateClickEntry(RadialMenuEntry newCurrentSeletectedEntry)
+    {
+        if (currentValidationMethod != ValidationMethod.click)
+        {
+            return;
+        }
+
+        OnValidate?.Invoke(currentSeletectedEntry);
+        Close();
+    }
+
+    public void ValidatePointerUpEntry()
+    {
+        if (currentValidationMethod != ValidationMethod.pointerUp)
+        {
+            return;
+        }
+
+        if (currentSeletectedEntry != null)
+        {
+            OnValidate?.Invoke(currentSeletectedEntry);
+        }
+        Close();
+    }
+
+    public void ValidateAndClose()
+    {
+        if (currentSeletectedEntry != null)
+        {
+            OnValidate?.Invoke(currentSeletectedEntry);
+        }
+        Close();
+    }
+
+    public void Open()
+    {
+        for (int i = 0; i < entryModelList.Count; i++)
+        {
+            AddEntry(entryModelList[i].EntryIcon, entryModelList[i].EntryLabel);
+        }
+        ReArrange();
+
+        isOpen = true;
+    }
+
+    public void Close()
+    {
+        for (int i = 0; i < _entriesList.Count; i++)
+        {
+            GameObject entry = _entriesList[i].gameObject;
+            Destroy(entry);
+        }
+        _entriesList.Clear();
+
+        isOpen = false;
+    }
+
+    public void Toggle()
+    {
+        if (_entriesList.Count == 0)
+        {
+            Open();
+        }
+        else
+        {
+            Close();
+        }
+    }
 
     private void Awake()
     {
@@ -71,79 +146,6 @@ public class RadialMenu : MonoBehaviour
         {
             currentSeletectedEntry = newCurrentSeletectedEntry;
             Debug.Log("Select => " + currentSeletectedEntry.name);
-        }
-    }
-
-    public void ValidateClickEntry(RadialMenuEntry newCurrentSeletectedEntry)
-    {
-        if (currentValidationMethod != ValidationMethod.click)
-        {
-            return;
-        }
-
-        Debug.Log("Validate with => " + currentSeletectedEntry.gameObject.name);
-        OnValidate?.Invoke(currentSeletectedEntry);
-        Close();
-    }
-
-    public void ValidatePointerUpEntry()
-    {
-        if (currentValidationMethod != ValidationMethod.pointerUp)
-        {
-            return;
-        }
-
-        if (currentSeletectedEntry != null)
-        {
-            Debug.Log("Validate with => " + currentSeletectedEntry.gameObject.name);
-            OnValidate?.Invoke(currentSeletectedEntry);
-        }
-        Close();
-    }
-
-    public void ValidateAndClose()
-    {
-        if (currentSeletectedEntry != null)
-        {
-            Debug.Log("Validate with => " + currentSeletectedEntry.gameObject.name);
-            OnValidate?.Invoke(currentSeletectedEntry);
-        }
-        Close();
-    }
-
-    public void Open()
-    {
-        Debug.Log("Open");
-        for (int i = 0; i < entryModelList.Count; i++)
-        {
-            AddEntry(entryModelList[i].EntryIcon, entryModelList[i].EntryLabel);
-        }
-        ReArrange();
-
-        isOpen = true;
-    }
-
-    public void Close()
-    {
-        for (int i = 0; i < _entriesList.Count; i++)
-        {
-            GameObject entry = _entriesList[i].gameObject;
-            Destroy(entry);
-        }
-        _entriesList.Clear();
-
-        isOpen = false;
-    }
-
-    public void Toggle()
-    {
-        if (_entriesList.Count == 0)
-        {
-            Open();
-        }
-        else
-        {
-            Close();
         }
     }
 
@@ -202,11 +204,4 @@ public class RadialMenu : MonoBehaviour
                 break;
         }
     }
-}
-
-[Serializable]
-public struct EntryModel
-{
-    public Sprite EntryIcon;
-    public string EntryLabel;
 }

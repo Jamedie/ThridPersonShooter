@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ThirdPersonInteractController : MonoBehaviour
 {
+    public InteractableObject _selectedObject;
+
     [SerializeField] private LayerMask interactableColliderLayerMak;
     [SerializeField] private float rangeInteract = 0.5f;
     [SerializeField] private LocomotionAssetsInputs locomotionAssetsInputs;
-
     [SerializeField] private Transform PlayerCameraRoot;
-
-    public InteractableObject _selectedObject;
 
     private Camera _mainCamera;
     private Vector2 _screenCenterPoint;
@@ -40,7 +37,6 @@ public class ThirdPersonInteractController : MonoBehaviour
             {
                 if (currentObject == _selectedObject && locomotionAssetsInputs.use)
                 {
-                    Debug.Log("Use " + raycastHit.transform.name);
                     locomotionAssetsInputs.use = false;
                     currentObject.UseInteractable();
                 }
@@ -57,7 +53,6 @@ public class ThirdPersonInteractController : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(PlayerCameraRoot.position, PlayerCameraRoot.TransformDirection(Vector3.forward) * 10, Color.white);
             LeavInteractable();
         }
     }
@@ -76,7 +71,6 @@ public class ThirdPersonInteractController : MonoBehaviour
 
     private void EnterInteractable(InteractableObject newInteractable)
     {
-        Debug.Log("Inter interactable");
         _selectedObject = newInteractable;
         _selectedObject.OverInteractable();
     }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,14 +9,12 @@ public class RadialMenuEntry : MonoBehaviour, IPointerClickHandler, IPointerEnte
 {
     public int _id;
 
-    [SerializeField] private TextMeshProUGUI label;
-
     public Action<RadialMenuEntry> CallbackEnter;
     public Action<RadialMenuEntry> CallbackClick;
-
     public UnityEvent OnPointerEnterEvent;
     public UnityEvent OnPointerExitEvent;
 
+    [SerializeField] private TextMeshProUGUI label;
     [SerializeField] private Image icon;
 
     public void SetLabel(string newLabelText)
@@ -71,18 +67,6 @@ public class RadialMenuEntry : MonoBehaviour, IPointerClickHandler, IPointerEnte
         OnPointerExitEvent?.Invoke();
     }
 
-    private void OnMouseOver()
-    {
-        CallbackEnter?.Invoke(this);
-        OnPointerEnterEvent?.Invoke();
-    }
-
-    private void OnMouseExit()
-    {
-        CallbackEnter?.Invoke(null);
-        OnPointerExitEvent?.Invoke();
-    }
-
     public void UseInteractable()
     {
         CallbackClick?.Invoke(this);
@@ -95,6 +79,18 @@ public class RadialMenuEntry : MonoBehaviour, IPointerClickHandler, IPointerEnte
     }
 
     public void LeavOverInteractable()
+    {
+        CallbackEnter?.Invoke(null);
+        OnPointerExitEvent?.Invoke();
+    }
+
+    private void OnMouseOver()
+    {
+        CallbackEnter?.Invoke(this);
+        OnPointerEnterEvent?.Invoke();
+    }
+
+    private void OnMouseExit()
     {
         CallbackEnter?.Invoke(null);
         OnPointerExitEvent?.Invoke();

@@ -7,8 +7,7 @@ public class AssaultRifleGun : Gun
     private float lastShot = 0f;
 
     public override void EquipGun(Transform gunAttachement)
-    {
-    }
+    { }
 
     public override void Shoot(Vector3 mouseWorldPosition)
     {

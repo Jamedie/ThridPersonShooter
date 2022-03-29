@@ -96,14 +96,14 @@ public class LocomotionAssetsInputs : MonoBehaviour
 
 #if !UNITY_IOS || !UNITY_ANDROID
 
-    private void OnApplicationFocus(bool hasFocus)
-    {
-        SetCursorState(cursorLocked);
-    }
-
     public void SetCursorState(bool newState)
     {
         Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        SetCursorState(cursorLocked);
     }
 
 #endif

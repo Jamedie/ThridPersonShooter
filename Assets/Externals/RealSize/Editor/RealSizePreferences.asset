@@ -22,7 +22,7 @@ MonoBehaviour:
   precisionMode: 0
   maxVerticesApproximateMode: 5000
   showPerformanceWarningsInConsole: 1
-  selectedUnitIndex: 5
+  selectedUnitIndex: 6
   metersPerUnityUnit: 1
   sizeUnitsDisplayedPerRow: 4
   onlyShowCustomUnits: 0

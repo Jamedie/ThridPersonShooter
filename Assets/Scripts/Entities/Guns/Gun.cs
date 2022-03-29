@@ -11,10 +11,8 @@ public class Gun : MonoBehaviour
     [SerializeField] protected Transform spawnBulletPosition;
 
     public virtual void EquipGun(Transform gunAttachement)
-    {
-    }
+    { }
 
     public virtual void Shoot(Vector3 mouseWorldPosition)
-    {
-    }
+    { }
 }
