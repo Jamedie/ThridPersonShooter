@@ -926,6 +926,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 454698009422040631, guid: 60af6c242fe1a0d43b5d6096200506b9, type: 3}
+      propertyPath: CameraDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 454698009422040631, guid: 60af6c242fe1a0d43b5d6096200506b9, type: 3}
+      propertyPath: ShoulderOffset.x
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 5439773419680157944, guid: 60af6c242fe1a0d43b5d6096200506b9, type: 3}
       propertyPath: m_Name
       value: PlayerFollowCamera
@@ -940,7 +948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5439773419680157959, guid: 60af6c242fe1a0d43b5d6096200506b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5439773419680157959, guid: 60af6c242fe1a0d43b5d6096200506b9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -948,7 +956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5439773419680157959, guid: 60af6c242fe1a0d43b5d6096200506b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 5439773419680157959, guid: 60af6c242fe1a0d43b5d6096200506b9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1050,7 +1058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6503171416714360177, guid: 3610d70b0cf6e314a8c9b3e3a31fbe86, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6503171416714360177, guid: 3610d70b0cf6e314a8c9b3e3a31fbe86, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1058,7 +1066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6503171416714360177, guid: 3610d70b0cf6e314a8c9b3e3a31fbe86, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 6503171416714360177, guid: 3610d70b0cf6e314a8c9b3e3a31fbe86, type: 3}
       propertyPath: m_LocalRotation.w

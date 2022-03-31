@@ -7,11 +7,12 @@ public class RoomBehavior : MonoBehaviour
     public GameObject[] Walls;
     public GameObject[] Doors;
     public GameObject[] Floors;
+    public GameObject EntrancePrefab;
 
     public int MinRoomSize = 2;
     public int MaxRoomSize = 15;
     public int MaxDoor = 3;
-
+    public int SpaceBetweenDoor = 4;
     public Transform FloorParent;
     public Transform WallParent;
     public Transform EntranceParent;
@@ -66,8 +67,40 @@ public class RoomBehavior : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(0.01f);
+        }
 
-            //Create Door
+        int currentDoor = 0;
+
+        while (currentDoor < MaxDoor)
+        {
+            Transform seletectedWall = WallParent.GetChild(Random.Range(0, WallParent.childCount));
+            Debug.Log(seletectedWall.position);
+
+            if (seletectedWall.name.Contains("Right Wall"))
+            {
+                Instantiate(Doors[Random.Range(0, Doors.Length)], position: new Vector3(seletectedWall.position.x, 0, seletectedWall.position.z), rotation: Quaternion.Euler(0, 90, 0), EntranceParent).transform.name = "Door";
+                Destroy(seletectedWall.gameObject);
+                currentDoor++;
+            }
+            else if (seletectedWall.name.Contains("Top Wall"))
+            {
+                Instantiate(Doors[Random.Range(0, Doors.Length)], position: new Vector3(seletectedWall.position.x, 0, seletectedWall.position.z), rotation: Quaternion.Euler(0, 0, 0), EntranceParent).transform.name = "Door ";
+                Destroy(seletectedWall.gameObject);
+                currentDoor++;
+            }
+            else if (seletectedWall.name.Contains("Down Wall"))
+            {
+                Instantiate(Doors[Random.Range(0, Doors.Length)], position: new Vector3(seletectedWall.position.x, 0, seletectedWall.position.z), rotation: Quaternion.Euler(0, 180, 0), EntranceParent).transform.name = "Door ";
+                Destroy(seletectedWall.gameObject);
+                currentDoor++;
+            }
+            else if (seletectedWall.name.Contains("Left Wall"))
+            {
+                Instantiate(Doors[Random.Range(0, Doors.Length)], position: new Vector3(seletectedWall.position.x, 0, seletectedWall.position.z), rotation: Quaternion.Euler(0, -90, 0), EntranceParent).transform.name = "Door";
+                Destroy(seletectedWall.gameObject);
+                currentDoor++;
+            }
+            yield return new WaitForSeconds(0.01f);
         }
     }
 

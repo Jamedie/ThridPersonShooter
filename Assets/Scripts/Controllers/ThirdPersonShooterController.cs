@@ -57,57 +57,57 @@ public class ThirdPersonShooterController : MonoBehaviour
             mouseWorldPosition = raycastHit.point;
         }
 
-        //if (starterAssetsInputs.aim)
-        //{
-        //    _animator.SetBool(_animIDAiming, true);
-        //    aimVirtualCamera.gameObject.SetActive(true);
-        //    thirdPersonController.SetSensitivity(aimSensitivity);
+        if (starterAssetsInputs.aim)
+        {
+            _animator.SetBool(_animIDAiming, true);
+            aimVirtualCamera.gameObject.SetActive(true);
+            thirdPersonController.SetSensitivity(aimSensitivity);
 
-        //    Vector3 worldAimTarget = mouseWorldPosition;
-        //    worldAimTarget.y = transform.position.y;
-        //    Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+            Vector3 worldAimTarget = mouseWorldPosition;
+            worldAimTarget.y = transform.position.y;
+            Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
 
-        //    transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
-        //    thirdPersonController.SetRotationMove(false);
+            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+            thirdPersonController.SetRotationMove(false);
 
-        //    if (currentGun.currentGunStats.GunWeaponType == WeaponType.Pistol)
-        //    {
-        //        _animator.SetLayerWeight(1, Mathf.Lerp(_animator.GetLayerWeight(1), 1f, Time.deltaTime * 50f));
-        //    }
-        //    if (currentGun.currentGunStats.GunWeaponType == WeaponType.Rifle)
-        //    {
-        //        _animator.SetLayerWeight(2, 1f);
-        //    }
+            if (currentGun.currentGunStats.GunWeaponType == WeaponType.Pistol)
+            {
+                _animator.SetLayerWeight(1, Mathf.Lerp(_animator.GetLayerWeight(1), 1f, Time.deltaTime * 50f));
+            }
+            if (currentGun.currentGunStats.GunWeaponType == WeaponType.Rifle)
+            {
+                _animator.SetLayerWeight(2, 1f);
+            }
 
-        //    //Can Shoot if aimed
-        //    if (starterAssetsInputs.shoot)
-        //    {
-        //        currentGun.Shoot(mouseWorldPosition);
+            //Can Shoot if aimed
+            if (starterAssetsInputs.shoot)
+            {
+                currentGun.Shoot(mouseWorldPosition);
 
-        //        // update animator if using character
-        //        if (_hasAnimator)
-        //        {
-        //            _animator.SetTrigger(_animIDFire);
-        //        }
+                // update animator if using character
+                if (_hasAnimator)
+                {
+                    _animator.SetTrigger(_animIDFire);
+                }
 
-        //        if (currentGun.currentGunStats.GunWeaponType == WeaponType.Pistol)
-        //        {
-        //            starterAssetsInputs.shoot = false;
-        //        }
-        //        if (currentGun.currentGunStats.GunWeaponType == WeaponType.Rifle)
-        //        {
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    _animator.SetBool(_animIDAiming, true);
-        //    aimVirtualCamera.gameObject.SetActive(false);
-        //    thirdPersonController.SetSensitivity(normalSensitivity);
-        //    thirdPersonController.SetRotationMove(true);
+                if (currentGun.currentGunStats.GunWeaponType == WeaponType.Pistol)
+                {
+                    starterAssetsInputs.shoot = false;
+                }
+                if (currentGun.currentGunStats.GunWeaponType == WeaponType.Rifle)
+                {
+                }
+            }
+        }
+        else
+        {
+            _animator.SetBool(_animIDAiming, true);
+            aimVirtualCamera.gameObject.SetActive(false);
+            thirdPersonController.SetSensitivity(normalSensitivity);
+            thirdPersonController.SetRotationMove(true);
 
-        //    _animator.SetLayerWeight(1, Mathf.Lerp(_animator.GetLayerWeight(1), 0f, Time.deltaTime * 50f));
-        //    _animator.SetLayerWeight(2, Mathf.Lerp(_animator.GetLayerWeight(1), 0f, Time.deltaTime * 50f));
-        //}
+            _animator.SetLayerWeight(1, Mathf.Lerp(_animator.GetLayerWeight(1), 0f, Time.deltaTime * 50f));
+            _animator.SetLayerWeight(2, Mathf.Lerp(_animator.GetLayerWeight(1), 0f, Time.deltaTime * 50f));
+        }
     }
 }
